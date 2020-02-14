@@ -15,15 +15,33 @@
     <script>
         var button = document.querySelector('button');
         var list = document.querySelector('ul');
-
+        var i = 0;
         button.setAttribute('onclick', 'addBlock()');
 
         function addBlock() {
             var block = document.createElement('li');
+            block.setAttribute('id', 'bloco_' + i);
+            block.setAttribute('onmouseover', 'changeRandomBackgroud('+ i +')');
             block.style.width = '100px';
             block.style.height = '100px';
             block.style.backgroundColor = 'red';
             list.appendChild(block);
+            i++;
+        }
+
+        function changeRandomBackgroud(id) {
+            var completeId = '#bloco_' + id;
+            var block = document.querySelector(completeId);
+            block.style.backgroundColor = getRandomColor();
+        }
+
+        function getRandomColor() {
+            var letters = "0123456789ABCDEF";
+            var color = "#";
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
         }
 
     </script>
