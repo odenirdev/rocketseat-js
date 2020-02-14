@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul></ul>
+    <input type="text" name="user">
+    <button onclick="buscar()">Buscar</button>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var inputElement = document.querySelector('input');
+        var ulElement = document.querySelector('ul');
+        function renderRepos(repos) {
+            ulElement.innerHTML = '';
+            for (repo of repos) {
+                var repoName = document.createTextNode(repo['name']);
+                var liElement = document.createElement('li');
+                liElement.appendChild(repoName);
+                ulElement.appendChild(liElement);
+            }
+        }
+
+        function buscar() {
+            ulElement.innerHTML = '<li>Carregando...</li>';
+            axios.get('https://api.github.com/users/' + inputElement.value + '/repos')
+                .then(function (response) {
+                    renderRepos(response['data']);
+                    inputElement.value = '';
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
+        }
+    </script>
+</body>
+
+</html>
